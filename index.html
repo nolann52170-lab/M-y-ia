@@ -4,171 +4,1259 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mon IA</title>
+<title>Nova AI</title>
 
 <style>
-    body {
-        margin: 0;
-        background: #111827;
-        color: white;
-        font-family: Arial, sans-serif;
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --text: #f5f5f7;
+    --muted: #92929a;
+    --glass: rgba(255,255,255,.075);
+    --border: rgba(255,255,255,.14);
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    color: var(--text);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 20% 15%,
+            #263c70 0,
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 85% 80%,
+            #47285f 0,
+            transparent 35%
+        ),
+        #07080c;
+}
+
+button {
+    font-family: inherit;
+    border: 0;
+    cursor: pointer;
+    color: white;
+}
+
+button:active {
+    transform: scale(.92);
+}
+
+/* =========================
+   APP
+========================= */
+
+.app {
+    height: 100vh;
+    display: flex;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    width: 270px;
+    padding: 18px;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    z-index: 20;
+
+    border-right:
+        1px solid rgba(255,255,255,.1);
+
+    background:
+        rgba(8,9,14,.48);
+
+    backdrop-filter:
+        blur(35px);
+
+    -webkit-backdrop-filter:
+        blur(35px);
+
+    transition: .3s ease;
+}
+
+.logo {
+    padding: 10px 12px 22px;
+
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.close-sidebar {
+    display: none;
+
+    position: absolute;
+    top: 18px;
+    right: 15px;
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    font-size: 24px;
+}
+
+.history {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.history-title {
+    padding: 12px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.history-item {
+    padding: 12px 13px;
+    margin-bottom: 5px;
+
+    border-radius: 13px;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    transition: .18s;
+}
+
+.history-item:hover {
+    background:
+        rgba(255,255,255,.07);
+}
+
+.history-item.active {
+    background:
+        rgba(255,255,255,.11);
+}
+
+.new-chat {
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 10px;
+
+    border-radius: 17px;
+
+    background:
+        rgba(255,255,255,.09);
+
+    border:
+        1px solid rgba(255,255,255,.14);
+
+    font-size: 14px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    height: 66px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+
+    background:
+        rgba(8,9,14,.25);
+
+    backdrop-filter:
+        blur(25px);
+}
+
+.menu-button {
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    margin-right: 10px;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* =========================
+   CHAT
+========================= */
+
+.chat {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding:
+        25px
+        18px
+        150px;
+}
+
+.welcome {
+    max-width: 700px;
+
+    margin:
+        17vh
+        auto
+        0;
+
+    text-align: center;
+}
+
+.welcome h1 {
+    margin: 0 0 10px;
+
+    font-size: 42px;
+
+    letter-spacing: -1.5px;
+}
+
+.welcome p {
+    color: var(--muted);
+}
+
+.message {
+    max-width: 780px;
+
+    margin: 16px auto;
+
+    padding:
+        15px
+        17px;
+
+    border-radius: 19px;
+
+    line-height: 1.55;
+
+    white-space: pre-wrap;
+
+    animation:
+        messageIn .25s ease;
+}
+
+@keyframes messageIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(7px);
     }
 
-    .app {
-        max-width: 700px;
-        height: 100vh;
-        margin: auto;
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.user {
+    background:
+        rgba(255,255,255,.095);
+
+    border:
+        1px solid rgba(255,255,255,.1);
+}
+
+.ai {
+    background:
+        rgba(255,255,255,.035);
+}
+
+/* =========================
+   BOTTOM
+========================= */
+
+.bottom {
+    position: absolute;
+
+    left: 270px;
+    right: 0;
+    bottom: 0;
+
+    padding:
+        12px
+        18px
+        18px;
+
+    background:
+        linear-gradient(
+            transparent,
+            rgba(7,8,12,.85) 35%
+        );
+}
+
+/* =========================
+   COMPOSER
+========================= */
+
+.composer {
+    max-width: 780px;
+
+    margin: auto;
+
+    position: relative;
+
+    border-radius: 23px;
+
+    background:
+        rgba(255,255,255,.075);
+
+    border:
+        1px solid rgba(255,255,255,.16);
+
+    backdrop-filter:
+        blur(32px)
+        saturate(160%);
+
+    -webkit-backdrop-filter:
+        blur(32px)
+        saturate(160%);
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* =========================
+   ATTACHMENT MENU
+========================= */
+
+.attach-menu {
+    display: none;
+
+    position: absolute;
+
+    left: 8px;
+    bottom: 66px;
+
+    width: 190px;
+
+    padding: 8px;
+
+    border-radius: 18px;
+
+    background:
+        rgba(25,25,30,.82);
+
+    border:
+        1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:
+        blur(30px);
+
+    -webkit-backdrop-filter:
+        blur(30px);
+
+    box-shadow:
+        0 15px 50px rgba(0,0,0,.45);
+
+    z-index: 50;
+}
+
+.attach-menu.open {
+    display: block;
+
+    animation:
+        menuIn .18s ease;
+}
+
+@keyframes menuIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+.attach-option {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    background: transparent;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    transition: .15s;
+}
+
+.attach-option:hover {
+    background:
+        rgba(255,255,255,.09);
+}
+
+.attach-icon {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    font-size: 16px;
+}
+
+/* =========================
+   FILE PREVIEW
+========================= */
+
+.attachment-preview {
+    display: none;
+
+    padding:
+        10px
+        12px
+        0;
+}
+
+.attachment {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 9px;
+
+    max-width: 100%;
+
+    padding: 8px 10px;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.1);
+}
+
+.attachment-image {
+    width: 38px;
+    height: 38px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+}
+
+.file-name {
+    max-width: 220px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    font-size: 13px;
+}
+
+.remove-file {
+    width: 25px;
+    height: 25px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    font-size: 18px;
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.input-row {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 5px;
+
+    padding: 8px;
+}
+
+#message {
+    flex: 1;
+
+    min-width: 0;
+
+    max-height: 130px;
+
+    resize: none;
+
+    overflow-y: auto;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: white;
+
+    padding:
+        12px 8px;
+
+    font-size: 16px;
+
+    line-height: 1.4;
+
+    font-family: inherit;
+}
+
+#message::placeholder {
+    color: #888;
+}
+
+/* =========================
+   BOUTONS
+========================= */
+
+.icon-button {
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        transparent;
+
+    transition:
+        transform .15s,
+        background .2s;
+}
+
+.icon-button:hover {
+    background:
+        rgba(255,255,255,.09);
+}
+
+.clear-button {
+    display: none;
+}
+
+/* =========================
+   SVG MICRO
+========================= */
+
+.mic-icon {
+    width: 20px;
+    height: 20px;
+
+    fill: none;
+
+    stroke: currentColor;
+
+    stroke-width: 2;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+}
+
+/* =========================
+   SEND
+========================= */
+
+.send-button {
+    background: white;
+
+    color: #090909;
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+.send-button:hover {
+    background: #f0f0f0;
+}
+
+/* =========================
+   VOICE MODE
+========================= */
+
+.voice-panel {
+    display: none;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 10px;
+}
+
+.voice-bars {
+    flex: 1;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 3px;
+}
+
+.voice-bar {
+    width: 3px;
+
+    height: 6px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(255,255,255,.9);
+
+    transition:
+        height .06s linear;
+}
+
+.voice-button {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,.09);
+}
+
+.stop-button {
+    background: white;
+
+    color: black;
+}
+
+.cancel-button {
+    background:
+        rgba(255,255,255,.07);
+
+    font-size: 21px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    text-align: center;
+
+    margin-top: 7px;
+
+    font-size: 10px;
+
+    color: #707078;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+    .sidebar {
+        position: fixed;
+
+        top: 0;
+        bottom: 0;
+        left: -290px;
+
+        width: 275px;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+
+    .close-sidebar {
         display: flex;
-        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
     }
 
-    h1 {
-        text-align: center;
-        padding: 20px;
-        margin: 0;
-    }
-
-    #chat {
-        flex: 1;
-        overflow-y: auto;
-        padding: 20px;
-    }
-
-    .message {
-        padding: 12px 16px;
-        margin: 10px 0;
-        border-radius: 15px;
-        max-width: 80%;
-        white-space: pre-wrap;
-    }
-
-    .user {
-        background: #2563eb;
-        margin-left: auto;
-    }
-
-    .ai {
-        background: #374151;
-        margin-right: auto;
-    }
-
-    .input-area {
+    .menu-button {
         display: flex;
-        gap: 10px;
-        padding: 15px;
-        background: #1f2937;
+
+        align-items: center;
+        justify-content: center;
     }
 
-    input {
-        flex: 1;
-        padding: 14px;
-        border: none;
-        border-radius: 10px;
-        outline: none;
-        font-size: 16px;
+    .bottom {
+        left: 0;
     }
 
-    button {
-        padding: 14px 20px;
-        border: none;
-        border-radius: 10px;
-        background: #2563eb;
-        color: white;
-        cursor: pointer;
-        font-weight: bold;
+    .welcome {
+        margin-top: 13vh;
     }
 
-    button:hover {
-        background: #1d4ed8;
+    .welcome h1 {
+        font-size: 32px;
     }
+
+    .chat {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .attach-menu {
+        bottom: 65px;
+        left: 8px;
+    }
+
+}
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-    <h1>🤖 Mon IA</h1>
+    <!-- SIDEBAR -->
 
-    <div id="chat">
-        <div class="message ai">
-            Salut ! Je suis ton IA. 👋
+    <aside
+        class="sidebar"
+        id="sidebar">
+
+        <button
+            type="button"
+            class="close-sidebar"
+            onclick="fermerMenu()">
+
+            ×
+
+        </button>
+
+
+        <div class="logo">
+            Nova AI
         </div>
-    </div>
 
-    <div class="input-area">
-        <input
-            id="message"
-            type="text"
-            placeholder="Écris ton message..."
-            onkeydown="if(event.key === 'Enter') envoyer()"
-        >
 
-        <button onclick="envoyer()">Envoyer</button>
-    </div>
+        <div class="history">
+
+            <div class="history-title">
+                CONVERSATIONS
+            </div>
+
+            <div id="historyList"></div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="new-chat"
+            onclick="nouvelleConversation()">
+
+            Nouvelle conversation
+
+        </button>
+
+    </aside>
+
+
+    <!-- PRINCIPAL -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <button
+                type="button"
+                class="menu-button"
+                onclick="ouvrirMenu()">
+
+                <span>☰</span>
+
+            </button>
+
+
+            <div class="title">
+                Nova AI
+            </div>
+
+        </header>
+
+
+        <!-- CHAT -->
+
+        <section
+            class="chat"
+            id="chat">
+
+            <div class="welcome">
+
+                <h1>
+                    Que puis-je faire pour toi ?
+                </h1>
+
+                <p>
+                    Commence une conversation avec Nova AI.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- BARRE DU BAS -->
+
+        <div class="bottom">
+
+            <div
+                class="composer"
+                id="composer">
+
+
+                <!-- MENU + -->
+
+                <div
+                    class="attach-menu"
+                    id="attachMenu">
+
+
+                    <button
+                        type="button"
+                        class="attach-option"
+                        onclick="choisirPhoto()">
+
+                        <span class="attach-icon">
+                            Photo
+                        </span>
+
+                        <span>
+                            Photos
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="attach-option"
+                        onclick="ouvrirCamera()">
+
+                        <span class="attach-icon">
+                            Cam
+                        </span>
+
+                        <span>
+                            Caméra
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="attach-option"
+                        onclick="choisirFichier()">
+
+                        <span class="attach-icon">
+                            F
+                        </span>
+
+                        <span>
+                            Fichiers
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- INPUTS CACHÉS -->
+
+                <input
+                    type="file"
+                    id="photoInput"
+                    accept="image/*"
+                    hidden
+                    onchange="photoSelectionnee()"
+                >
+
+
+                <input
+                    type="file"
+                    id="cameraInput"
+                    accept="image/*"
+                    capture="environment"
+                    hidden
+                    onchange="cameraPhotoPrise()"
+                >
+
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    hidden
+                    onchange="fichierSelectionne()"
+                >
+
+
+                <!-- PIÈCE JOINTE -->
+
+                <div
+                    class="attachment-preview"
+                    id="attachmentPreview">
+
+                    <div class="attachment">
+
+                        <img
+                            id="attachmentImage"
+                            class="attachment-image"
+                            style="display:none"
+                            alt=""
+                        >
+
+                        <span
+                            class="file-name"
+                            id="fileName">
+                        </span>
+
+
+                        <button
+                            type="button"
+                            class="remove-file"
+                            onclick="supprimerPieceJointe()">
+
+                            ×
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- MODE NORMAL -->
+
+                <div
+                    class="input-row"
+                    id="textMode">
+
+
+                    <!-- PLUS -->
+
+                    <button
+                        type="button"
+                        class="icon-button"
+                        onclick="ouvrirMenuFichiers()">
+
+                        +
+
+                    </button>
+
+
+                    <!-- TEXTE -->
+
+                    <textarea
+                        id="message"
+                        rows="1"
+                        placeholder="Écrire un message..."
+                    ></textarea>
+
+
+                    <!-- EFFACER -->
+
+                    <button
+                        type="button"
+                        class="icon-button clear-button"
+                        id="clearButton"
+                        onclick="effacerTexte()">
+
+                        ×
+
+                    </button>
+
+
+                    <!-- MICRO -->
+
+                    <button
+                        type="button"
+                        class="icon-button"
+                        onclick="demarrerMicro()"
+                        aria-label="Microphone">
+
+                        <svg
+                            class="mic-icon"
+                            viewBox="0 0 24 24">
+
+                            <rect
+                                x="8"
+                                y="3"
+                                width="8"
+                                height="12"
+                                rx="4">
+                            </rect>
+
+                            <path
+                                d="M5 11a7 7 0 0 0 14 0">
+                            </path>
+
+                            <path
+                                d="M12 18v3">
+                            </path>
+
+                            <path
+                                d="M8 21h8">
+                            </path>
+
+                        </svg>
+
+                    </button>
+
+
+                    <!-- ENVOYER -->
+
+                    <button
+                        type="button"
+                        class="icon-button send-button"
+                        onclick="envoyer()">
+
+                        ↑
+
+                    </button>
+
+                </div>
+
+
+                <!-- MODE MICROPHONE -->
+
+                <div
+                    class="voice-panel"
+                    id="voiceMode">
+
+
+                    <button
+                        type="button"
+                        class="voice-button cancel-button"
+                        onclick="annulerMicro()">
+
+                        ×
+
+                    </button>
+
+
+                    <div
+                        class="voice-bars"
+                        id="voiceBars">
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="voice-button stop-button"
+                        onclick="arreterMicro()">
+
+                        ■
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="voice-button send-button"
+                        onclick="envoyerVoix()">
+
+                        ↑
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="footer">
+                Nova AI peut faire des erreurs. Vérifie les informations importantes.
+            </div>
+
+        </div>
+
+    </main>
 
 </div>
 
+
 <script>
 
-async function envoyer() {
+/* =========================
+   DONNÉES
+========================= */
 
-    const input = document.getElementById("message");
-    const chat = document.getElementById("chat");
+let conversations =
+    JSON.parse(
+        localStorage.getItem("nova_conversations") || "[]"
+    );
 
-    const texte = input.value.trim();
+let conversationActuelle = null;
 
-    if (!texte) return;
+let pieceJointeActuelle = null;
 
-    // Message utilisateur
-    const userMessage = document.createElement("div");
-    userMessage.className = "message user";
-    userMessage.textContent = texte;
+let recognition = null;
 
-    chat.appendChild(userMessage);
+let microphoneActif = false;
 
-    input.value = "";
+let audioContext = null;
 
-    // Message temporaire
-    const aiMessage = document.createElement("div");
-    aiMessage.className = "message ai";
-    aiMessage.textContent = "Réflexion...";
+let analyser = null;
 
-    chat.appendChild(aiMessage);
+let microphoneSource = null;
 
-    /*
-       C'est ici que tu connecteras ton IA.
+let animationAudio = null;
 
-       Exemple :
 
-       const response = await fetch("TON_SERVEUR", {
-           method: "POST",
-           headers: {
-               "Content-Type": "application/json"
-           },
-           body: JSON.stringify({
-               message: texte
-           })
-       });
+/* =========================
+   UTILISATEUR LOCAL
+========================= */
 
-       const data = await response.json();
+if (!localStorage.getItem("nova_user_id")) {
 
-       aiMessage.textContent = data.reponse;
-    */
+    const id =
+        crypto.randomUUID
+        ? crypto.randomUUID()
+        : Date.now() + "-" + Math.random();
 
-    // Démonstration sans vraie IA
-    setTimeout(() => {
+    localStorage.setItem(
+        "nova_user_id",
+        id
+    );
 
-        aiMessage.textContent =
-            "Tu as écrit : " + texte +
-            "\n\nPour avoir une vraie IA, il faut maintenant connecter cette interface à une API.";
-
-        chat.scrollTop = chat.scrollHeight;
-
-    }, 700);
 }
 
-</script>
 
-</body>
-</html>
+/* =========================
+   SAUVEGARDE
+========================= */
+
+function sauvegarder() {
+
+    localStorage.setItem(
+        "nova_conversations",
+        JSON.stringify(conversations)
+    );
+
+}
+
+
+/* =========================
+   HISTORIQUE
+========================= */
+
+function afficherHistorique() {
+
+    const liste =
+        document.getElementById(
+            "historyList"
+        );
+
+    liste.innerHTML = "";
+
+
+    conversations.forEach(
+        (conversation, index) => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "history-item";
+
+
+            if (
+                index ===
+          
